@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rajendra Bhagat & Associates – Consulting Structural Engineers</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2b4a;
+    --steel: #2e5fa3;
+    --sky: #4fa3c8;
+    --gold: #d4a922;
+    --gold-light: #f0c84a;
+    --off-white: #f5f3ef;
+    --white: #ffffff;
+    --text: #1a1a1a;
+    --muted: #5a6475;
+    --border: rgba(26,43,74,0.12);
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 3rem;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.08); }
+  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .nav-logo-icon {
+    width: 40px; height: 40px;
+    background: var(--navy);
+    clip-path: polygon(0 100%, 50% 0, 100% 100%);
+    position: relative;
+  }
+  .nav-logo-text { line-height: 1.1; }
+  .nav-logo-text strong { display: block; font-family: 'Playfair Display', serif; font-size: 14px; color: var(--navy); letter-spacing: 0.02em; }
+  .nav-logo-text span { font-size: 10px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { text-decoration: none; font-size: 13px; font-weight: 500; color: var(--muted); letter-spacing: 0.04em; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--navy); }
+  .nav-cta {
+    background: var(--navy); color: white;
+    border: none; padding: 10px 22px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: background 0.2s;
+    letter-spacing: 0.04em;
+  }
+  .nav-cta:hover { background: var(--steel); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 2px; background: var(--navy); display: block; }
+
+  /* HERO */
+  .hero {
+    height: 100vh; min-height: 700px;
+    position: relative; overflow: hidden;
+    display: flex; align-items: center;
+    background: var(--navy);
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #0d1a30 0%, #1a2b4a 40%, #2e4a7a 100%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-accent {
+    position: absolute; right: 0; top: 0; bottom: 0; width: 45%;
+    background: rgba(255,255,255,0.02);
+    clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+  }
+  .hero-gold-bar { position: absolute; right: 10%; bottom: 80px; width: 6px; height: 120px; background: var(--gold); }
+  .hero-blue-bar { position: absolute; right: 40%; top: 0; width: 200px; height: 6px; background: var(--sky); opacity: 0.6; }
+  .hero-content { position: relative; z-index: 2; padding: 0 3rem; max-width: 700px; animation: fadeUp 1s ease forwards; }
+  .hero-tag {
+    display: inline-block;
+    border: 1px solid rgba(79,163,200,0.5);
+    color: var(--sky); font-size: 11px;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 6px 16px; margin-bottom: 2rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    font-weight: 700; color: white;
+    line-height: 1.1; margin-bottom: 1.5rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--gold-light); }
+  .hero-sub { font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.8; max-width: 500px; margin-bottom: 2.5rem; }
+  .hero-stats { display: flex; gap: 3rem; margin-bottom: 2.5rem; }
+  .hero-stat-num { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: white; font-weight: 700; line-height: 1; }
+  .hero-stat-num span { color: var(--gold-light); }
+  .hero-stat-label { font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+  .hero-btns { display: flex; gap: 1rem; }
+  .btn-primary {
+    background: var(--gold); color: var(--navy);
+    padding: 14px 32px; font-size: 13px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    border: 1px solid rgba(255,255,255,0.3); color: white;
+    padding: 14px 32px; font-size: 13px; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    text-decoration: none; transition: border-color 0.2s, background 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: white; background: rgba(255,255,255,0.05); }
+  .hero-scroll {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: rgba(255,255,255,0.4); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    animation: bounce 2s infinite;
+  }
+  .hero-scroll-line { width: 1px; height: 40px; background: rgba(255,255,255,0.2); }
+
+  /* SECTIONS COMMON */
+  section { padding: 100px 3rem; }
+  .section-tag {
+    display: inline-block; font-size: 11px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--sky); margin-bottom: 1rem;
+    border-left: 3px solid var(--sky); padding-left: 12px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    font-weight: 700; color: var(--navy); line-height: 1.2;
+    max-width: 700px; margin-bottom: 1.5rem;
+  }
+  .section-sub { font-size: 16px; color: var(--muted); line-height: 1.8; max-width: 600px; }
+
+  /* ABOUT */
+  .about { background: var(--off-white); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; max-width: 1200px; margin: 0 auto; }
+  .about-visual { position: relative; }
+  .about-img-main {
+    width: 100%; aspect-ratio: 4/5; object-fit: cover;
+    background: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .about-card {
+    position: absolute; bottom: -30px; left: -30px;
+    background: var(--navy); color: white;
+    padding: 1.5rem 2rem; min-width: 200px;
+  }
+  .about-card-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--gold-light); font-weight: 700; line-height: 1; }
+  .about-card-label { font-size: 13px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+  .about-gold-accent { position: absolute; top: -20px; right: -20px; width: 80px; height: 80px; background: var(--gold); opacity: 0.8; }
+  .about-content { padding-left: 1rem; }
+  .about-points { margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+  .about-point { display: flex; gap: 1rem; align-items: flex-start; }
+  .about-point-dot { width: 8px; height: 8px; background: var(--sky); flex-shrink: 0; margin-top: 7px; }
+  .about-point-text { font-size: 15px; color: var(--muted); line-height: 1.7; }
+
+  /* SERVICES */
+  .services-grid { max-width: 1200px; margin: 4rem auto 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+  .service-card {
+    background: white; padding: 2.5rem; position: relative;
+    border: 1px solid var(--border);
+    transition: box-shadow 0.3s, transform 0.3s;
+    overflow: hidden;
+  }
+  .service-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 4px; background: var(--sky);
+    transform: scaleY(0); transform-origin: bottom;
+    transition: transform 0.3s;
+  }
+  .service-card:hover::before { transform: scaleY(1); }
+  .service-card:hover { box-shadow: 0 20px 50px rgba(0,0,0,0.1); transform: translateY(-4px); }
+  .service-num { font-family: 'Playfair Display', serif; font-size: 3rem; color: rgba(26,43,74,0.06); font-weight: 700; line-height: 1; margin-bottom: 1rem; }
+  .service-icon { font-size: 28px; margin-bottom: 1rem; }
+  .service-title { font-size: 16px; font-weight: 600; color: var(--navy); margin-bottom: 0.75rem; line-height: 1.4; }
+  .service-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+  .services-header { max-width: 1200px; margin: 0 auto; }
+
+  /* APPROACH */
+  .approach { background: var(--navy); color: white; }
+  .approach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; max-width: 1200px; margin: 0 auto; }
+  .approach .section-title { color: white; }
+  .approach .section-sub { color: rgba(255,255,255,0.6); }
+  .approach-checks { margin-top: 2rem; display: flex; flex-direction: column; gap: 1.2rem; }
+  .approach-check { display: flex; gap: 1rem; align-items: flex-start; }
+  .approach-check-icon {
+    width: 28px; height: 28px; flex-shrink: 0;
+    background: rgba(212,169,34,0.15);
+    border: 1px solid rgba(212,169,34,0.4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: var(--gold-light);
+    margin-top: 2px;
+  }
+  .approach-check-text { font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.7; }
+  .approach-visual { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .approach-stat-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 1.5rem; text-align: center;
+    transition: background 0.3s;
+  }
+  .approach-stat-card:hover { background: rgba(255,255,255,0.08); }
+  .approach-stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--gold-light); font-weight: 700; }
+  .approach-stat-label { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 6px; letter-spacing: 0.05em; }
+
+  /* MISSION VISION */
+  .mission { background: var(--off-white); }
+  .mv-grid { max-width: 1200px; margin: 4rem auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+  .mv-card {
+    background: white; padding: 3rem;
+    border-top: 4px solid var(--sky);
+    position: relative; overflow: hidden;
+  }
+  .mv-card.gold-top { border-top-color: var(--gold); }
+  .mv-card-letter {
+    position: absolute; right: 2rem; top: 1rem;
+    font-family: 'Playfair Display', serif; font-size: 8rem;
+    font-weight: 700; color: rgba(26,43,74,0.04); line-height: 1;
+    pointer-events: none;
+  }
+  .mv-card h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--navy); margin-bottom: 1.5rem; }
+  .mv-card p { font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+
+  /* SECTORS */
+  .sectors-grid { max-width: 1200px; margin: 4rem auto 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: var(--border); }
+  .sector-cell {
+    background: white; padding: 2rem 1rem; text-align: center;
+    transition: background 0.3s;
+    cursor: default;
+  }
+  .sector-cell:hover { background: var(--navy); }
+  .sector-cell:hover .sector-label { color: white; }
+  .sector-cell:hover .sector-icon-wrap { background: rgba(255,255,255,0.1); }
+  .sector-icon-wrap {
+    width: 48px; height: 48px; margin: 0 auto 1rem;
+    background: rgba(26,43,74,0.05);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; transition: background 0.3s;
+  }
+  .sector-label { font-size: 12px; font-weight: 600; color: var(--navy); text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.4; transition: color 0.3s; }
+
+  /* CONTACT */
+  .contact { background: var(--navy); color: white; }
+  .contact-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .contact .section-title { color: white; }
+  .contact-info { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+  .contact-item { display: flex; gap: 1rem; align-items: flex-start; }
+  .contact-item-icon {
+    width: 40px; height: 40px; flex-shrink: 0;
+    background: rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; color: var(--sky);
+  }
+  .contact-item-text h4 { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 4px; }
+  .contact-item-text p { font-size: 15px; color: rgba(255,255,255,0.85); }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-form input,
+  .contact-form textarea {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: white; padding: 14px 18px;
+    font-family: 'DM Sans', sans-serif; font-size: 14px;
+    outline: none; transition: border-color 0.2s; width: 100%;
+  }
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder { color: rgba(255,255,255,0.3); }
+  .contact-form input:focus,
+  .contact-form textarea:focus { border-color: var(--sky); }
+  .contact-form textarea { min-height: 120px; resize: vertical; }
+  .contact-form .btn-primary { border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; width: 100%; padding: 16px; font-size: 13px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  /* FOOTER */
+  footer {
+    background: #0a1220; color: rgba(255,255,255,0.4);
+    padding: 2rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 13px;
+  }
+  footer strong { color: rgba(255,255,255,0.7); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    section { padding: 70px 1.5rem; }
+    .hero-content { padding: 0 1.5rem; }
+    .hero h1 { font-size: 2.2rem; }
+    .hero-stats { gap: 2rem; }
+    .about-grid, .approach-grid, .contact-grid, .mv-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .sectors-grid { grid-template-columns: repeat(3, 1fr); }
+    .form-row { grid-template-columns: 1fr; }
+    .about-card { position: static; margin-top: 1.5rem; }
+    .about-gold-accent { display: none; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+      <rect width="36" height="36" fill="#1a2b4a"/>
+      <path d="M8 28 L18 8 L28 28 Z" fill="none" stroke="#4fa3c8" stroke-width="2"/>
+      <path d="M13 22 L23 22" stroke="#d4a922" stroke-width="2"/>
+    </svg>
+    <div class="nav-logo-text">
+      <strong>Rajendra Bhagat & Associates</strong>
+      <span>Consulting Structural Engineers</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#approach">Approach</a></li>
+    <li><a href="#mission">Mission</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get In Touch</button>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-accent"></div>
+  <div class="hero-gold-bar"></div>
+  <div class="hero-blue-bar"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Consulting Structural Engineers · Est. 2019</div>
+    <h1>Building <em>Solid</em><br>Foundations for<br>Your Vision</h1>
+    <p class="hero-sub">Transforming architectural visions into structural realities — with precision engineering, innovative design, and an unwavering commitment to excellence.</p>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">500<span>+</span></div>
+        <div class="hero-stat-label">Projects Delivered</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">6<span>+</span></div>
+        <div class="hero-stat-label">Years Experience</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">2</div>
+        <div class="hero-stat-label">Cities Presence</div>
+      </div>
+    </div>
+    <div class="hero-btns">
+      <a href="#services" class="btn-primary">Our Services</a>
+      <a href="#contact" class="btn-outline">Get Consultation</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="about-gold-accent"></div>
+      <div class="about-img-main">
+        <svg width="100%" height="100%" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+          <rect width="400" height="500" fill="#1a2b4a"/>
+          <!-- Stylized building illustration -->
+          <rect x="80" y="100" width="240" height="360" fill="#2e4a7a"/>
+          <rect x="80" y="100" width="240" height="360" fill="none" stroke="#4fa3c8" stroke-width="1" opacity="0.5"/>
+          <!-- Windows grid -->
+          <g fill="rgba(79,163,200,0.3)">
+            <rect x="100" y="120" width="30" height="20"/>
+            <rect x="145" y="120" width="30" height="20"/>
+            <rect x="190" y="120" width="30" height="20"/>
+            <rect x="235" y="120" width="30" height="20"/>
+            <rect x="280" y="120" width="25" height="20"/>
+            <rect x="100" y="155" width="30" height="20"/>
+            <rect x="145" y="155" width="30" height="20"/>
+            <rect x="190" y="155" width="30" height="20"/>
+            <rect x="235" y="155" width="30" height="20"/>
+            <rect x="280" y="155" width="25" height="20"/>
+            <rect x="100" y="190" width="30" height="20"/>
+            <rect x="145" y="190" width="30" height="20"/>
+            <rect x="190" y="190" width="30" height="20"/>
+            <rect x="235" y="190" width="30" height="20"/>
+            <rect x="280" y="190" width="25" height="20"/>
+            <rect x="100" y="225" width="30" height="20"/>
+            <rect x="145" y="225" width="30" height="20"/>
+            <rect x="190" y="225" width="30" height="20"/>
+            <rect x="235" y="225" width="30" height="20"/>
+            <rect x="280" y="225" width="25" height="20"/>
+            <rect x="100" y="260" width="30" height="20"/>
+            <rect x="145" y="260" width="30" height="20"/>
+            <rect x="190" y="260" width="30" height="20"/>
+            <rect x="235" y="260" width="30" height="20"/>
+            <rect x="280" y="260" width="25" height="20"/>
+          </g>
+          <!-- Gold accent top -->
+          <path d="M80 100 L200 30 L320 100 Z" fill="rgba(212,169,34,0.6)"/>
+          <!-- Ground line -->
+          <rect x="0" y="460" width="400" height="40" fill="#0d1a30"/>
+        </svg>
+      </div>
+      <div class="about-card">
+        <div class="about-card-num">500+</div>
+        <div class="about-card-label">Prestigious Projects Delivered</div>
+      </div>
+    </div>
+    <div class="about-content reveal">
+      <div class="section-tag">About The Firm</div>
+      <h2 class="section-title">Ahmednagar–Pune's Trusted Structural Engineering Consultancy</h2>
+      <p class="section-sub">Founded in 2019 by Mr. Rajendra Dhondiram Bhagat — a Master's in Structural Engineering holder — our firm has rapidly grown into a leading consultancy delivering comprehensive engineering solutions across the region.</p>
+      <div class="about-points">
+        <div class="about-point">
+          <div class="about-point-dot"></div>
+          <p class="about-point-text">We are dedicated to transforming architectural visions into solid, safe, and sustainable structural realities.</p>
+        </div>
+        <div class="about-point">
+          <div class="about-point-dot"></div>
+          <p class="about-point-text">With an unwavering commitment to innovation, precision, and excellence — we specialize in comprehensive structural solutions across a wide range of project types.</p>
+        </div>
+        <div class="about-point">
+          <div class="about-point-dot"></div>
+          <p class="about-point-text">Every solution is tailored, cost-optimized, and delivered on time — meeting both functional requirements and codal compliance.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTORS -->
+<section style="padding: 60px 3rem; background: white;">
+  <p class="section-tag" style="max-width:1200px;margin:0 auto 2rem;">Project Sectors</p>
+  <div class="sectors-grid reveal">
+    <div class="sector-cell">
+      <div class="sector-icon-wrap">🏢</div>
+      <div class="sector-label">High-Rise Residential</div>
+    </div>
+    <div class="sector-cell">
+      <div class="sector-icon-wrap">🏬</div>
+      <div class="sector-label">Commercial Buildings</div>
+    </div>
+    <div class="sector-cell">
+      <div class="sector-icon-wrap">🏥</div>
+      <div class="sector-label">Health Care</div>
+    </div>
+    <div class="sector-cell">
+      <div class="sector-icon-wrap">🎓</div>
+      <div class="sector-label">Educational</div>
+    </div>
+    <div class="sector-cell">
+      <div class="sector-icon-wrap">🏠</div>
+      <div class="sector-label">Individual Bungalows</div>
+    </div>
+    <div class="sector-cell">
+      <div class="sector-icon-wrap">🏪</div>
+      <div class="sector-label">Mall & Multiplex</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" style="background: var(--off-white);">
+  <div class="services-header reveal">
+    <div class="section-tag">What We Do</div>
+    <h2 class="section-title">Professional Services Offered</h2>
+    <p class="section-sub">From initial structural design to on-site quality inspection — we deliver end-to-end engineering excellence.</p>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <div class="service-icon">🏗️</div>
+      <h3 class="service-title">Structural Design Consultancy</h3>
+      <p class="service-desc">Comprehensive structural design for all kinds of structures — residential, commercial, industrial, and beyond.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <div class="service-icon">🔩</div>
+      <h3 class="service-title">Seismic Design & Retrofitting</h3>
+      <p class="service-desc">Seismic design for retrofitting, alterations, and structural strengthening works to enhance resilience against earthquakes.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <div class="service-icon">🌱</div>
+      <h3 class="service-title">Earth Retention Systems</h3>
+      <p class="service-desc">Engineering solutions and design for all types of earth retention systems, ensuring safety and stability.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">04</div>
+      <div class="service-icon">🔍</div>
+      <h3 class="service-title">Site Inspection & Quality Control</h3>
+      <p class="service-desc">On-site inspections for quality control during project execution — ensuring every detail meets the highest standards.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">05</div>
+      <div class="service-icon">📊</div>
+      <h3 class="service-title">Structural Health Monitoring</h3>
+      <p class="service-desc">Continuous structural health monitoring of buildings to detect issues early and ensure long-term safety.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">06</div>
+      <div class="service-icon">📐</div>
+      <h3 class="service-title">Drawing & Documentation</h3>
+      <p class="service-desc">In-house standards for drafting, modelling, design drawings and reports, delivered within committed timeframes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENT-CENTRIC APPROACH -->
+<section class="approach" id="approach">
+  <div class="approach-grid">
+    <div class="reveal">
+      <div class="section-tag" style="color:var(--sky)">Our Commitment</div>
+      <h2 class="section-title">Client-Centric Approach to Every Project</h2>
+      <p class="section-sub">We strive to ensure complete customer satisfaction by maintaining the highest standards across every engagement.</p>
+      <div class="approach-checks">
+        <div class="approach-check">
+          <div class="approach-check-icon">✓</div>
+          <p class="approach-check-text">Meeting the functional requirements of every project without compromise</p>
+        </div>
+        <div class="approach-check">
+          <div class="approach-check-icon">✓</div>
+          <p class="approach-check-text">Full compliance with all codal provisions and industry standards</p>
+        </div>
+        <div class="approach-check">
+          <div class="approach-check-icon">✓</div>
+          <p class="approach-check-text">Drawings and documents delivered within committed timeframes</p>
+        </div>
+        <div class="approach-check">
+          <div class="approach-check-icon">✓</div>
+          <p class="approach-check-text">In-house standards for drafting, modelling, design, drawings and reports — consistently followed</p>
+        </div>
+      </div>
+    </div>
+    <div class="approach-visual reveal">
+      <div class="approach-stat-card">
+        <div class="approach-stat-num">500+</div>
+        <div class="approach-stat-label">Projects Completed</div>
+      </div>
+      <div class="approach-stat-card">
+        <div class="approach-stat-num">2019</div>
+        <div class="approach-stat-label">Year Founded</div>
+      </div>
+      <div class="approach-stat-card">
+        <div class="approach-stat-num">100%</div>
+        <div class="approach-stat-label">Codal Compliance</div>
+      </div>
+      <div class="approach-stat-card">
+        <div class="approach-stat-num">2</div>
+        <div class="approach-stat-label">Cities · Pune & Ahmednagar</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION & VISION -->
+<section class="mission" id="mission">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-tag">Our Direction</div>
+    <h2 class="section-title">Mission & Vision</h2>
+  </div>
+  <div class="mv-grid">
+    <div class="mv-card reveal">
+      <div class="mv-card-letter">M</div>
+      <h3>Mission</h3>
+      <p>Our mission is to be the trusted partner for architects, builders, developers, and individuals seeking expert structural engineering guidance.</p>
+      <p>We strive to create safe, efficient, and sustainable structures that stand the test of time — contributing to the growth and advancement of the built environment.</p>
+    </div>
+    <div class="mv-card gold-top reveal">
+      <div class="mv-card-letter">V</div>
+      <h3>Vision</h3>
+      <p>We believe that every project is unique, and our approach reflects this belief. We work closely with our clients to understand their specific needs, project goals, and budget constraints.</p>
+      <p>Our collaborative approach ensures that our solutions are tailored to meet the project's requirements while optimizing efficiency and minimizing costs.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-grid">
+    <div class="reveal">
+      <div class="section-tag" style="color:var(--sky)">Get In Touch</div>
+      <h2 class="section-title">Let's Build Something Extraordinary Together</h2>
+      <p style="color:rgba(255,255,255,0.6);font-size:15px;line-height:1.8;margin-top:1rem;margin-bottom:2rem;">Ready to start your project? Reach out for a consultation and see how our structural expertise can bring your vision to life.</p>
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div class="contact-item-text">
+            <h4>Location</h4>
+            <p>Ahmednagar – Pune, Maharashtra, India</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">🏛️</div>
+          <div class="contact-item-text">
+            <h4>Specialization</h4>
+            <p>Consulting Structural Engineers</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">🎓</div>
+          <div class="contact-item-text">
+            <h4>Principal Engineer</h4>
+            <p>Mr. Rajendra Dhondiram Bhagat, M.E. (Structural)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="contact-form">
+        <div class="form-row">
+          <input type="text" placeholder="Your Name">
+          <input type="text" placeholder="Phone / WhatsApp">
+        </div>
+        <input type="email" placeholder="Email Address">
+        <input type="text" placeholder="Project Type (Residential / Commercial / etc.)">
+        <textarea placeholder="Tell us about your project..."></textarea>
+        <button class="btn-primary" onclick="alert('Thank you! We will get back to you shortly.')">Send Enquiry →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>© 2024 <strong>Rajendra Bhagat & Associates</strong> — Consulting Structural Engineers</div>
+  <div>Ahmednagar · Pune, Maharashtra, India</div>
+</footer>
+
+<script>
+// Navbar scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// Reveal on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
